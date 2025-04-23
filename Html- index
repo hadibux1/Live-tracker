@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Live Satellite Tracker</title>
+    <style>
+      #map {
+        height: 100vh;
+        width: 100%;
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async></script>
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+      let map;
+      let marker;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 16,
+          center: { lat: 33.6844, lng: 73.0479 },
+          mapTypeId: 'satellite',
+        });
+
+        marker = new google.maps.Marker({
+          position: { lat: 33.6844, lng: 73.0479 },
+          map: map,
+          title: "Tracking Object",
+        });
+
+        simulateLiveMovement();
+      }
+
+      function simulateLiveMovement() {
+        let lat = 33.6844;
+        let lng = 73.0479;
+
+        setInterval(() => {
+          lat += 0.0001;
+          lng += 0.0001;
+          const newPos = { lat, lng };
+          marker.setPosition(newPos);
+          map.panTo(newPos);
+        }, 5000);
+      }
+    </script>
+  </body>
+</html>
